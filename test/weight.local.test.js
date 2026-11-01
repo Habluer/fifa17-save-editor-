@@ -1,0 +1,27 @@
+const test = require('node:test');
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
+const { inspectSave, applySave, restoreBackup } = require('../save-editor');
+const source = process.env.FIFA17_TEST_SAVE;
+test('peso sincroniza registro físico e tabela, respeita limites e restaura backup', {skip:!source}, t => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(),'fifa-weight-'));
+  t.after(() => fs.rmSync(root,{recursive:true,force:true}));
+  const file = path.join(root,'Career-test'); fs.copyFileSync(source,file);
+  const original = fs.readFileSync(file), before = inspectSave(file);
+  for (const weight of [29,151,70.5]) assert.throws(() => applySave(file,{weight}),/inteiro/);
+  assert.deepEqual(fs.readFileSync(file),original);
+  const result = applySave(file,{weight:before.values.weight === 80 ? 81 : 80},before.fingerprint);
+  const bytes = fs.readFileSync(file), after = inspectSave(file);
+  assert.equal(bytes.readUInt32LE(1410),after.values.weight);
+  assert.equal(after.values.weight,before.values.weight === 80 ? 81 : 80);
+  const probe = path.join(root,'table-probe');
+  const tableOnly = Buffer.from(bytes); tableOnly.writeUInt32LE(0,1390);
+  fs.writeFileSync(probe,tableOnly);
+  assert.equal(inspectSave(probe).values.weight,after.values.weight,'Tabela e registro físico devem concordar');
+  assert.equal(after.values.height,before.values.height);
+  assert.ok(bytes.subarray(211126).some((byte,index) => byte !== original[211126+index]));
+  restoreBackup(file,result.backup,after.fingerprint);
+  assert.deepEqual(fs.readFileSync(file),original);
+});

@@ -1,0 +1,53 @@
+{
+  "name": "fifa17-save-editor-local",
+  "version": "1.0.0",
+  "description": "Editor offline de Carreira de Jogador do FIFA 17 para Windows",
+  "author": "Habluer",
+  "private": true,
+  "main": "main.js",
+  "engines": { "node": ">=22.12.0" },
+  "overrides": {
+    "@electron/asar": { ".": "4.3.1", "glob": "14.0.3" },
+    "@electron/universal": "3.0.6",
+    "minimatch": "11.0.3"
+  },
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test",
+    "test:integration": "node --test test/integration.local.test.js",
+    "test:ui": "electron scripts/ui-smoke.cjs",
+    "benchmark": "node scripts/benchmark.cjs",
+    "build:icon": "electron scripts/build-icon.cjs",
+    "dist": "electron-builder --win zip"
+  },
+  "devDependencies": {
+    "electron": "45.2.1",
+    "electron-builder": "26.18.0"
+  },
+  "build": {
+    "appId": "local.fifa17.saveeditor",
+    "productName": "FIFA17 Career Editor",
+    "artifactName": "FIFA17-Career-Editor.${ext}",
+    "electronLanguages": [
+      "pt-BR",
+      "en-US"
+    ],
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer.js",
+      "attributes.js",
+      "save-editor.js",
+      "save-folder.js",
+      "index.html",
+      "style.css",
+      "assets/icon.ico",
+      "assets/icon.png",
+      "LICENSE"
+    ],
+    "win": {
+      "target": "zip",
+      "icon": "assets/icon.ico"
+    }
+  }
+}

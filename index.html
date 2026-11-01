@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'">
+  <title>FIFA17 Career Editor</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="window-title"><img src="assets/icon.png" alt="" width="18" height="18"><span>FIFA17 Career Editor</span></div>
+<main>
+  <header><h1>FIFA 17 / EDITOR DE CARREIRA DE JOGADOR</h1></header>
+  <nav aria-label="Carreira"><span class="browse-control"><button id="browse">Minhas carreiras</button><span class="info" id="folder-help"><button class="info-button" aria-label="Onde ficam os saves?" aria-describedby="help-folder" aria-expanded="false">?</button><span class="tooltip" id="help-folder" role="tooltip">Na primeira vez, selecione a pasta dos seus saves. Normalmente fica em Documentos → FIFA 17 → settings (inclusive se Documentos estiver no OneDrive). A escolha fica salva neste computador. Para mudar, use Trocar pasta em Minhas carreiras.</span></span></span><button id="open" class="secondary">Abrir arquivo</button><button id="reload" class="secondary" disabled>Recarregar</button><button id="backups" class="secondary" disabled>Restaurar backup</button></nav>
+  <div class="status-bar"><p id="status" role="status">Escolha uma carreira para começar. Feche o FIFA somente quando for aplicar ou restaurar.</p><button id="show-status-details" class="secondary" hidden>Ver detalhes</button></div>
+  <section id="editor" hidden>
+    <section class="identity"><div><span class="eyebrow">SAVE SELECIONADO</span><h2 id="save-name"></h2><p id="player"></p></div><p id="modified"></p><details><summary>Arquivo</summary><p id="file"></p></details></section>
+    <section class="bulk" aria-label="Edição em lote">
+      <select id="group" aria-label="Grupo de atributos"><option value="">Todos os atributos</option><option>Físico</option><option>Dados físicos</option><option>Técnica</option><option>Finalização</option><option>Defesa</option><option>Mental</option><option>Progressão</option></select>
+      <button id="select-group" class="secondary">Selecionar grupo</button><button id="clear-selection" class="secondary">Limpar seleção</button>
+      <span id="selection-count">0 selecionados</span>
+      <input id="bulk-value" type="number" step="1" value="90" min="-98" max="99" aria-label="Valor para edição em lote">
+      <button id="set-selected" class="secondary">Definir valor</button><button id="add-selected" class="secondary">Somar pontos</button>
+      <button id="max-selected" class="secondary">Selecionados → 99</button><button id="max-all" class="secondary">Todos → 99</button>
+      <small>Altura, peso e potencial ficam fora das operações em lote. Nada é gravado até aplicar.</small>
+    </section>
+    <div class="legend"><span id="changes-count">Sem alterações</span></div>
+    <section id="fields" class="fields" aria-label="Atributos do jogador"></section>
+    <footer><button id="reset" class="secondary">Reverter alterações</button><button id="save">Revisar e aplicar</button></footer>
+  </section>
+  <dialog id="picker"><div class="dialog-heading"><h2 id="picker-title">Carreiras</h2><button id="change-folder" class="secondary">Trocar pasta</button><button id="close-picker" class="secondary">Fechar</button></div><div id="picker-list"></div></dialog>
+  <dialog id="status-details" aria-labelledby="status-details-title"><div class="dialog-heading"><h2 id="status-details-title">Detalhes da operação</h2><button id="close-status-details" class="secondary">Fechar</button></div><pre id="status-details-text"></pre></dialog>
+  <dialog id="review"><h2 id="review-title">Revisar alterações</h2><p id="review-description"></p><div id="review-list"></div><div class="dialog-actions"><button id="cancel-review" class="secondary">Cancelar</button><button id="confirm-review">Confirmar</button></div></dialog>
+</main>
+<script src="attributes.js"></script><script src="renderer.js"></script>
+</body></html>

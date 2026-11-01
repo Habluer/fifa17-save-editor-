@@ -1,0 +1,15 @@
+node_modules/
+dist/
+dist-*/
+*.backup-*
+Career*
+*.log
+*.tmp-*
+*.previous-*
+fifa17-editor-backups/
+ui-check/
+data/
+.env
+.env.*
+*.zip
+*.dmp
